@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+import React, { useEffect, useState } from 'react';
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +16,15 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+  const [budgies, setBudgies] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/budgiebase')
+      .then(res => res.json())
+      .then(data => setBudgies(data))
+      .catch(err => console.error('API error:', err));
+  }, []);
+
   return (
     <>
       <Head>
@@ -40,6 +51,14 @@ export default function Home() {
             </li>
             <li>Save and see your changes instantly.</li>
           </ol>
+
+          <ul>
+            {budgies.map(budgie => (
+              <li key={budgie.id}>
+                {budgie.name} ({budgie.specialty})
+              </li>
+            ))}
+          </ul>
 
           <div className={styles.ctas}>
             <a
