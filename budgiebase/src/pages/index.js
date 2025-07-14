@@ -19,7 +19,7 @@ export default function Home() {
   const [budgies, setBudgies] = useState([]);
 
   useEffect(() => {
-    fetch('/api/budgiebase')
+    fetch('/api/budgies')
       .then(res => res.json())
       .then(data => setBudgies(data))
       .catch(err => console.error('API error:', err));
